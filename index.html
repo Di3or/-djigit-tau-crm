@@ -1,173 +1,1625 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Djigit Tau CRM</title>
-<link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Djigit Tau CRM</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background: #080808;
+    color: #fff;
+    min-height: 100vh;
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+
+    background:
+        radial-gradient(circle at top, rgba(212,175,55,.15), transparent 35%),
+        #080808;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 35px 25px;
+    border-radius: 25px;
+
+    background: #111;
+    border: 1px solid rgba(212,175,55,.35);
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.7),
+        0 0 40px rgba(212,175,55,.08);
+
+    text-align: center;
+}
+
+.logo {
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 22px;
+
+    background: linear-gradient(
+        145deg,
+        #f7d774,
+        #b8860b,
+        #f7d774
+    );
+
+    color: #080808;
+    font-size: 25px;
+    font-weight: 900;
+
+    box-shadow: 0 0 30px rgba(212,175,55,.3);
+}
+
+.login-card h1 {
+    font-size: 28px;
+    margin-bottom: 7px;
+}
+
+.login-card > p {
+    color: #999;
+    margin-bottom: 30px;
+}
+
+.input-group {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    color: #aaa;
+    font-size: 13px;
+    margin-bottom: 7px;
+}
+
+.input-group input,
+.modal input,
+.modal select {
+    width: 100%;
+    padding: 15px;
+
+    border-radius: 12px;
+    border: 1px solid #292929;
+
+    background: #191919;
+    color: white;
+
+    font-size: 16px;
+    outline: none;
+}
+
+.input-group input:focus,
+.modal input:focus,
+.modal select:focus {
+    border-color: #d4af37;
+}
+
+.gold-button {
+    width: 100%;
+    padding: 15px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: linear-gradient(
+        135deg,
+        #f7d774,
+        #b8860b
+    );
+
+    color: #080808;
+    font-weight: 800;
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+.gold-button:active {
+    transform: scale(.98);
+}
+
+.error {
+    display: none;
+    color: #ff6969;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+/* =========================
+   CRM
+========================= */
+
+.crm {
+    display: none;
+    min-height: 100vh;
+}
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 250px;
+
+    background: #0d0d0d;
+    border-right: 1px solid #242424;
+
+    padding: 25px 15px;
+
+    z-index: 100;
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 10px;
+    margin-bottom: 30px;
+}
+
+.sidebar-logo .mini-logo {
+    width: 45px;
+    height: 45px;
+
+    border-radius: 13px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(
+        145deg,
+        #f7d774,
+        #b8860b
+    );
+
+    color: #080808;
+    font-weight: 900;
+}
+
+.sidebar-logo strong {
+    font-size: 16px;
+}
+
+.sidebar-logo span {
+    display: block;
+    color: #888;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nav button {
+    border: none;
+    background: transparent;
+
+    color: #aaa;
+
+    padding: 14px;
+    border-radius: 12px;
+
+    text-align: left;
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+.nav button:hover,
+.nav button.active {
+    background: rgba(212,175,55,.12);
+    color: #f1cf62;
+}
+
+.logout {
+    position: absolute;
+    bottom: 25px;
+    left: 15px;
+    right: 15px;
+
+    padding: 13px;
+
+    border: 1px solid #292929;
+    border-radius: 12px;
+
+    background: #141414;
+    color: #aaa;
+
+    cursor: pointer;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.main {
+    margin-left: 250px;
+    padding: 30px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 30px;
+}
+
+.topbar h2 {
+    font-size: 28px;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: linear-gradient(
+        135deg,
+        #f7d774,
+        #b8860b
+    );
+
+    color: #080808;
+    font-weight: 900;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat {
+    padding: 22px;
+
+    background: #111;
+    border: 1px solid #242424;
+
+    border-radius: 18px;
+}
+
+.stat-title {
+    color: #888;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.stat-number {
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.stat-gold {
+    color: #d4af37;
+}
+
+/* =========================
+   CONTENT CARDS
+========================= */
+
+.card {
+    background: #111;
+    border: 1px solid #242424;
+
+    border-radius: 18px;
+    padding: 22px;
+
+    margin-bottom: 20px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 20px;
+}
+
+.card-header h3 {
+    font-size: 19px;
+}
+
+.add-button {
+    padding: 11px 16px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #d4af37;
+    color: #080808;
+
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+.search {
+    width: 100%;
+
+    padding: 14px 16px;
+    margin-bottom: 18px;
+
+    border-radius: 12px;
+    border: 1px solid #292929;
+
+    background: #191919;
+    color: white;
+
+    outline: none;
+}
+
+.search:focus {
+    border-color: #d4af37;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    text-align: left;
+    color: #777;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    padding: 12px;
+
+    border-bottom: 1px solid #252525;
+}
+
+td {
+    padding: 15px 12px;
+    border-bottom: 1px solid #1e1e1e;
+}
+
+.client-name {
+    font-weight: 700;
+}
+
+.client-phone {
+    color: #999;
+    font-size: 13px;
+    margin-top: 3px;
+}
+
+.status {
+    display: inline-block;
+
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    background: rgba(212,175,55,.12);
+    color: #d4af37;
+
+    font-size: 12px;
+}
+
+.status.active {
+    background: rgba(70,200,120,.12);
+    color: #61d695;
+}
+
+.status.new {
+    background: rgba(70,150,255,.12);
+    color: #65a8ff;
+}
+
+.delete-btn {
+    border: none;
+    background: transparent;
+
+    color: #ff6565;
+
+    cursor: pointer;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal-bg {
+    display: none;
+
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0,0,0,.75);
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 200;
+}
+
+.modal {
+    width: 100%;
+    max-width: 430px;
+
+    background: #111;
+    border: 1px solid #333;
+
+    border-radius: 20px;
+
+    padding: 25px;
+}
+
+.modal h3 {
+    margin-bottom: 20px;
+}
+
+.modal-group {
+    margin-bottom: 15px;
+}
+
+.modal-group label {
+    display: block;
+    color: #888;
+    font-size: 13px;
+    margin-bottom: 7px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-actions button {
+    flex: 1;
+    padding: 13px;
+
+    border-radius: 10px;
+    border: none;
+
+    cursor: pointer;
+}
+
+.cancel {
+    background: #252525;
+    color: white;
+}
+
+.save {
+    background: #d4af37;
+    color: #080808;
+    font-weight: 800;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+.mobile-menu {
+    display: none;
+}
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        transform: translateX(-100%);
+        transition: .3s;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .mobile-menu {
+        display: block;
+
+        border: 1px solid #333;
+        background: #151515;
+        color: white;
+
+        width: 42px;
+        height: 42px;
+
+        border-radius: 10px;
+
+        font-size: 20px;
+    }
+
+    .topbar {
+        gap: 15px;
+    }
+
+    .topbar-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+
+    .main {
+        padding: 15px;
+    }
+
+    .topbar h2 {
+        font-size: 22px;
+    }
+
+    .user-name {
+        display: none;
+    }
+
+    .stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .stat {
+        padding: 16px;
+    }
+
+    .stat-number {
+        font-size: 24px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    th,
+    td {
+        white-space: nowrap;
+    }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- LOGIN -->
-  <div id="login" class="login">
+<!-- =========================
+     LOGIN
+========================= -->
+
+<div class="login-page" id="loginPage">
+
     <div class="login-card">
 
-      <div class="logo">DT</div>
+        <div class="logo">
+            DT
+        </div>
 
-      <h1>Djigit Tau</h1>
-      <p>CRM система</p>
+        <h1>Djigit Tau</h1>
+        <p>CRM система</p>
 
-      <input
-        id="phone"
-        type="tel"
-        placeholder="Номер телефона"
-      >
+        <div class="input-group">
+            <label>Номер телефона</label>
+            <input
+                type="tel"
+                id="phone"
+                placeholder="+7 700 000 00 00"
+            >
+        </div>
 
-      <input
-        id="password"
-        type="password"
-        placeholder="Пароль"
-      >
+        <div class="input-group">
+            <label>Пароль</label>
+            <input
+                type="password"
+                id="password"
+                placeholder="Введите пароль"
+            >
+        </div>
 
-      <div id="error" class="error">
-        Введите номер телефона и пароль
-      </div>
+        <button class="gold-button" onclick="login()">
+            Войти
+        </button>
 
-      <button onclick="login()">
-        Войти
-      </button>
+        <div class="error" id="loginError">
+            Неверный номер телефона или пароль
+        </div>
 
     </div>
-  </div>
+
+</div>
 
 
-  <!-- DASHBOARD -->
-  <div id="dashboard" class="dashboard">
+<!-- =========================
+     CRM
+========================= -->
 
-    <header>
-      <div>
-        <div class="brand">DJIGIT TAU</div>
-        <div class="subtitle">CRM система</div>
-      </div>
+<div class="crm" id="crm">
 
-      <button class="logout" onclick="logout()">
-        Выйти
-      </button>
-    </header>
+    <!-- SIDEBAR -->
 
+    <aside class="sidebar" id="sidebar">
 
-    <main>
+        <div class="sidebar-logo">
 
-      <h1>Добро пожаловать 👋</h1>
-      <p class="welcome">
-        Управляйте клиентами и заявками в одном месте.
-      </p>
+            <div class="mini-logo">
+                DT
+            </div>
 
+            <div>
+                <strong>Djigit Tau</strong>
+                <span>CRM System</span>
+            </div>
 
-      <!-- STATISTICS -->
-      <section class="stats">
-
-        <div class="stat-card">
-          <span>👥</span>
-          <h3>Клиенты</h3>
-          <strong>0</strong>
         </div>
 
-        <div class="stat-card">
-          <span>📋</span>
-          <h3>Заявки</h3>
-          <strong>0</strong>
-        </div>
+        <nav class="nav">
 
-        <div class="stat-card">
-          <span>💰</span>
-          <h3>Продажи</h3>
-          <strong>0 ₸</strong>
-        </div>
+            <button class="active" onclick="showSection('dashboard')">
+                📊 Главная
+            </button>
 
-        <div class="stat-card">
-          <span>📈</span>
-          <h3>Конверсия</h3>
-          <strong>0%</strong>
-        </div>
+            <button onclick="showSection('clients')">
+                👥 Клиенты
+            </button>
 
-      </section>
+            <button onclick="showSection('orders')">
+                📋 Заказы
+            </button>
 
+            <button onclick="showSection('analytics')">
+                📈 Аналитика
+            </button>
 
-      <!-- MENU -->
-      <section class="menu">
+            <button onclick="showSection('settings')">
+                ⚙️ Настройки
+            </button>
 
-        <button>
-          👥
-          <span>Клиенты</span>
+        </nav>
+
+        <button class="logout" onclick="logout()">
+            🚪 Выйти
         </button>
 
-        <button>
-          📋
-          <span>Заявки</span>
-        </button>
-
-        <button>
-          💳
-          <span>Оплаты</span>
-        </button>
-
-        <button>
-          📊
-          <span>Статистика</span>
-        </button>
-
-      </section>
+    </aside>
 
 
-      <!-- CLIENTS -->
-      <section class="panel">
+    <!-- MAIN -->
 
-        <div class="panel-header">
-          <div>
-            <h2>Последние клиенты</h2>
-            <p>Ваши новые клиенты</p>
-          </div>
+    <main class="main">
 
-          <button class="add">
-            + Добавить
-          </button>
-        </div>
+        <header class="topbar">
 
-        <div class="empty">
-          <div class="empty-icon">👤</div>
-          <h3>Клиентов пока нет</h3>
-          <p>Добавьте первого клиента в CRM.</p>
-        </div>
+            <div class="topbar-left">
 
-      </section>
+                <button
+                    class="mobile-menu"
+                    onclick="toggleMenu()"
+                >
+                    ☰
+                </button>
+
+                <h2 id="pageTitle">
+                    Главная
+                </h2>
+
+            </div>
+
+            <div class="user">
+
+                <div class="user-name">
+                    Администратор
+                </div>
+
+                <div class="avatar">
+                    A
+                </div>
+
+            </div>
+
+        </header>
 
 
-      <!-- REQUESTS -->
-      <section class="panel">
+        <!-- DASHBOARD -->
 
-        <div class="panel-header">
-          <div>
-            <h2>Последние заявки</h2>
-            <p>Новые обращения клиентов</p>
-          </div>
-        </div>
+        <section id="dashboard">
 
-        <div class="empty">
-          <div class="empty-icon">📋</div>
-          <h3>Заявок пока нет</h3>
-          <p>Новые заявки будут отображаться здесь.</p>
-        </div>
+            <div class="stats">
 
-      </section>
+                <div class="stat">
+                    <div class="stat-title">
+                        Всего клиентов
+                    </div>
+
+                    <div
+                        class="stat-number stat-gold"
+                        id="totalClients"
+                    >
+                        0
+                    </div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-title">
+                        Новые клиенты
+                    </div>
+
+                    <div
+                        class="stat-number"
+                        id="newClients"
+                    >
+                        0
+                    </div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-title">
+                        Активные
+                    </div>
+
+                    <div
+                        class="stat-number"
+                        id="activeClients"
+                    >
+                        0
+                    </div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-title">
+                        Заказы
+                    </div>
+
+                    <div
+                        class="stat-number stat-gold"
+                        id="totalOrders"
+                    >
+                        0
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h3>
+                        Последние клиенты
+                    </h3>
+
+                    <button
+                        class="add-button"
+                        onclick="openModal()"
+                    >
+                        + Клиент
+                    </button>
+
+                </div>
+
+                <input
+                    class="search"
+                    id="searchDashboard"
+                    placeholder="🔎 Поиск клиента..."
+                    oninput="renderClients('searchDashboard')"
+                >
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Клиент</th>
+                                <th>Статус</th>
+                                <th>Дата</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="dashboardClients"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CLIENTS -->
+
+        <section
+            id="clients"
+            style="display:none"
+        >
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h3>
+                        Клиенты
+                    </h3>
+
+                    <button
+                        class="add-button"
+                        onclick="openModal()"
+                    >
+                        + Добавить
+                    </button>
+
+                </div>
+
+                <input
+                    class="search"
+                    id="searchClients"
+                    placeholder="🔎 Найти клиента..."
+                    oninput="renderClients('searchClients')"
+                >
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Клиент</th>
+                                <th>Телефон</th>
+                                <th>Статус</th>
+                                <th>Дата</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="clientsTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ORDERS -->
+
+        <section
+            id="orders"
+            style="display:none"
+        >
+
+            <div class="card">
+
+                <div class="card-header">
+                    <h3>Заказы</h3>
+                </div>
+
+                <p style="color:#888">
+                    Раздел заказов подготовлен.
+                    Здесь мы добавим создание и управление заказами.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ANALYTICS -->
+
+        <section
+            id="analytics"
+            style="display:none"
+        >
+
+            <div class="card">
+
+                <div class="card-header">
+                    <h3>Аналитика</h3>
+                </div>
+
+                <p style="color:#888">
+                    Здесь будет аналитика CRM:
+                    продажи, клиенты, заказы и доход.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- SETTINGS -->
+
+        <section
+            id="settings"
+            style="display:none"
+        >
+
+            <div class="card">
+
+                <div class="card-header">
+                    <h3>Настройки</h3>
+                </div>
+
+                <p style="color:#888">
+                    Настройки аккаунта и CRM.
+                </p>
+
+            </div>
+
+        </section>
 
     </main>
 
-  </div>
+</div>
 
 
-  <script src="app.js"></script>
+<!-- =========================
+     ADD CLIENT MODAL
+========================= -->
+
+<div
+    class="modal-bg"
+    id="modalBg"
+>
+
+    <div class="modal">
+
+        <h3>
+            Новый клиент
+        </h3>
+
+        <div class="modal-group">
+
+            <label>
+                Имя клиента
+            </label>
+
+            <input
+                id="clientName"
+                placeholder="Например: Али"
+            >
+
+        </div>
+
+        <div class="modal-group">
+
+            <label>
+                Телефон
+            </label>
+
+            <input
+                id="clientPhone"
+                type="tel"
+                placeholder="+7 700 000 00 00"
+            >
+
+        </div>
+
+        <div class="modal-group">
+
+            <label>
+                Статус
+            </label>
+
+            <select id="clientStatus">
+
+                <option value="new">
+                    Новый
+                </option>
+
+                <option value="active">
+                    Активный
+                </option>
+
+                <option value="waiting">
+                    Ожидает
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="modal-actions">
+
+            <button
+                class="cancel"
+                onclick="closeModal()"
+            >
+                Отмена
+            </button>
+
+            <button
+                class="save"
+                onclick="addClient()"
+            >
+                Сохранить
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   LOGIN
+========================= */
+
+function login() {
+
+    const phone =
+        document.getElementById("phone").value.trim();
+
+    const password =
+        document.getElementById("password").value.trim();
+
+    /*
+       ДЕМО-ДАННЫЕ
+
+       Номер:
+       +77000000000
+
+       Пароль:
+       123456
+    */
+
+    if (
+        phone.replace(/\s/g, "") === "+77000000000" &&
+        password === "123456"
+    ) {
+
+        localStorage.setItem(
+            "djigitTauLogged",
+            "true"
+        );
+
+        document.getElementById("loginPage").style.display =
+            "none";
+
+        document.getElementById("crm").style.display =
+            "block";
+
+        updateDashboard();
+
+    } else {
+
+        document.getElementById("loginError").style.display =
+            "block";
+
+    }
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logout() {
+
+    localStorage.removeItem(
+        "djigitTauLogged"
+    );
+
+    location.reload();
+}
+
+
+/* =========================
+   CLIENT DATABASE
+========================= */
+
+let clients =
+    JSON.parse(
+        localStorage.getItem("djigitTauClients")
+    ) || [
+
+        {
+            id: 1,
+            name: "Али",
+            phone: "+7 700 111 22 33",
+            status: "active",
+            date: "07.09.2026"
+        },
+
+        {
+            id: 2,
+            name: "Магомед",
+            phone: "+7 701 222 33 44",
+            status: "new",
+            date: "07.09.2026"
+        },
+
+        {
+            id: 3,
+            name: "Расул",
+            phone: "+7 702 333 44 55",
+            status: "active",
+            date: "06.09.2026"
+        }
+
+    ];
+
+
+/* =========================
+   SAVE
+========================= */
+
+function saveClients() {
+
+    localStorage.setItem(
+        "djigitTauClients",
+        JSON.stringify(clients)
+    );
+
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+function updateDashboard() {
+
+    document.getElementById("totalClients").textContent =
+        clients.length;
+
+    document.getElementById("newClients").textContent =
+        clients.filter(
+            client => client.status === "new"
+        ).length;
+
+    document.getElementById("activeClients").textContent =
+        clients.filter(
+            client => client.status === "active"
+        ).length;
+
+    document.getElementById("totalOrders").textContent =
+        clients.length;
+
+    renderClients();
+
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+function statusText(status) {
+
+    if (status === "active") {
+        return "Активный";
+    }
+
+    if (status === "new") {
+        return "Новый";
+    }
+
+    return "Ожидает";
+}
+
+
+/* =========================
+   RENDER CLIENTS
+========================= */
+
+function renderClients(searchId) {
+
+    let search = "";
+
+    if (searchId) {
+
+        search =
+            document
+                .getElementById(searchId)
+                .value
+                .toLowerCase();
+
+    }
+
+    const filtered =
+        clients.filter(client =>
+
+            client.name
+                .toLowerCase()
+                .includes(search) ||
+
+            client.phone
+                .toLowerCase()
+                .includes(search)
+
+        );
+
+
+    const dashboardTable =
+        document.getElementById(
+            "dashboardClients"
+        );
+
+    const clientsTable =
+        document.getElementById(
+            "clientsTable"
+        );
+
+
+    if (dashboardTable) {
+
+        dashboardTable.innerHTML =
+            filtered
+                .slice()
+                .reverse()
+                .slice(0, 8)
+                .map(client => `
+
+                    <tr>
+
+                        <td>
+                            <div class="client-name">
+                                ${client.name}
+                            </div>
+
+                            <div class="client-phone">
+                                ${client.phone}
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="status ${client.status}">
+                                ${statusText(client.status)}
+                            </span>
+                        </td>
+
+                        <td>
+                            ${client.date}
+                        </td>
+
+                        <td>
+                            <button
+                                class="delete-btn"
+                                onclick="deleteClient(${client.id})"
+                            >
+                                ✕
+                            </button>
+                        </td>
+
+                    </tr>
+
+                `)
+                .join("");
+
+    }
+
+
+    if (clientsTable) {
+
+        clientsTable.innerHTML =
+            filtered
+                .slice()
+                .reverse()
+                .map(client => `
+
+                    <tr>
+
+                        <td>
+                            <div class="client-name">
+                                ${client.name}
+                            </div>
+                        </td>
+
+                        <td>
+                            ${client.phone}
+                        </td>
+
+                        <td>
+                            <span class="status ${client.status}">
+                                ${statusText(client.status)}
+                            </span>
+                        </td>
+
+                        <td>
+                            ${client.date}
+                        </td>
+
+                        <td>
+                            <button
+                                class="delete-btn"
+                                onclick="deleteClient(${client.id})"
+                            >
+                                ✕
+                            </button>
+                        </td>
+
+                    </tr>
+
+                `)
+                .join("");
+
+    }
+
+}
+
+
+/* =========================
+   ADD CLIENT
+========================= */
+
+function openModal() {
+
+    document.getElementById("modalBg").style.display =
+        "flex";
+
+}
+
+
+function closeModal() {
+
+    document.getElementById("modalBg").style.display =
+        "none";
+
+}
+
+
+function addClient() {
+
+    const name =
+        document
+            .getElementById("clientName")
+            .value
+            .trim();
+
+    const phone =
+        document
+            .getElementById("clientPhone")
+            .value
+            .trim();
+
+    const status =
+        document
+            .getElementById("clientStatus")
+            .value;
+
+
+    if (!name || !phone) {
+
+        alert(
+            "Заполни имя и номер телефона"
+        );
+
+        return;
+    }
+
+
+    const now =
+        new Date();
+
+    const date =
+        String(now.getDate()).padStart(2, "0") +
+        "." +
+        String(now.getMonth() + 1).padStart(2, "0") +
+        "." +
+        now.getFullYear();
+
+
+    clients.push({
+
+        id: Date.now(),
+
+        name: name,
+
+        phone: phone,
+
+        status: status,
+
+        date: date
+
+    });
+
+
+    saveClients();
+
+    updateDashboard();
+
+    document.getElementById("clientName").value =
+        "";
+
+    document.getElementById("clientPhone").value =
+        "";
+
+    closeModal();
+
+}
+
+
+/* =========================
+   DELETE
+========================= */
+
+function deleteClient(id) {
+
+    if (
+        confirm(
+            "Удалить этого клиента?"
+        )
+    ) {
+
+        clients =
+            clients.filter(
+                client => client.id !== id
+            );
+
+        saveClients();
+
+        updateDashboard();
+
+    }
+
+}
+
+
+/* =========================
+   SECTIONS
+========================= */
+
+function showSection(section) {
+
+    const sections = [
+        "dashboard",
+        "clients",
+        "orders",
+        "analytics",
+        "settings"
+    ];
+
+    sections.forEach(id => {
+
+        document.getElementById(id).style.display =
+            id === section
+                ? "block"
+                : "none";
+
+    });
+
+
+    const titles = {
+
+        dashboard: "Главная",
+
+        clients: "Клиенты",
+
+        orders: "Заказы",
+
+        analytics: "Аналитика",
+
+        settings: "Настройки"
+
+    };
+
+
+    document.getElementById("pageTitle").textContent =
+        titles[section];
+
+
+    document
+        .querySelectorAll(".nav button")
+        .forEach(button =>
+            button.classList.remove("active")
+        );
+
+
+    event.currentTarget.classList.add("active");
+
+
+    document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+}
+
+
+/* =========================
+   MOBILE MENU
+========================= */
+
+function toggleMenu() {
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+
+}
+
+
+/* =========================
+   AUTO LOGIN
+========================= */
+
+if (
+    localStorage.getItem(
+        "djigitTauLogged"
+    ) === "true"
+) {
+
+    document.getElementById("loginPage").style.display =
+        "none";
+
+    document.getElementById("crm").style.display =
+        "block";
+
+    updateDashboard();
+
+}
+
+</script>
 
 </body>
 </html>
