@@ -1,0 +1,184 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f1e8;
+  color: #171717;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 24px;
+  padding: 35px 28px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+}
+
+.logo {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 20px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #111, #d4af37);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #777;
+  margin-bottom: 30px;
+}
+
+label {
+  display: block;
+  margin: 16px 0 8px;
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  outline: none;
+}
+
+input:focus {
+  border-color: #c49b25;
+}
+
+button {
+  width: 100%;
+  border: 0;
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: 24px;
+  background: #171717;
+  color: #fff;
+  font-weight: 700;
+}
+
+button:hover {
+  background: #c49b25;
+}
+
+.error {
+  display: none;
+  color: #c62828;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.dashboard {
+  display: none;
+  min-height: 100vh;
+}
+
+header {
+  background: #171717;
+  color: #fff;
+  padding: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logout {
+  width: auto;
+  margin: 0;
+  padding: 10px 16px;
+  background: #333;
+}
+
+main {
+  max-width: 1100px;
+  margin: auto;
+  padding: 24px;
+}
+
+.welcome {
+  margin-bottom: 25px;
+}
+
+.welcome h1 {
+  text-align: left;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.stat {
+  background: #fff;
+  border-radius: 18px;
+  padding: 22px;
+}
+
+.stat span {
+  color: #777;
+}
+
+.stat strong {
+  display: block;
+  font-size: 30px;
+  margin-top: 8px;
+}
+
+.clients {
+  margin-top: 25px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 22px;
+}
+
+.client {
+  padding: 16px 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+}
+
+.badge {
+  color: #96731c;
+  font-weight: 700;
+}
+
+@media (max-width: 650px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+}
